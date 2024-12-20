@@ -5,6 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -15,6 +17,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Order> orders;
 
     @NotBlank
     @Column(nullable = false, unique = true, length = 100)
