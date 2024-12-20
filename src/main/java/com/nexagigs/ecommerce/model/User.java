@@ -15,10 +15,10 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
     @NotBlank
@@ -42,7 +42,7 @@ public class User {
     @Size(max = 255)
     private String address;
 
-    @Pattern(regexp = "\\d{10,15}")
+    @Pattern(regexp = "^\\+?[0-9\\-\\s]{7,15}$")
     private String phone;
 
     // Custom setter for password to include hashing

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "product")
-    private List<Order> orderProducts;
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders;
 
     @NotBlank
     @Size(max = 100)
@@ -30,8 +31,8 @@ public class Product {
     private String description;
 
     @PositiveOrZero
-    @Column(nullable = false)
-    private double price;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 
     @PositiveOrZero
     @Column(nullable = false)
@@ -41,6 +42,11 @@ public class Product {
     @Column(length = 255)
     private String image;
 
+    /**
+     * Represents the product's status:
+     * true - Available
+     * false - Unavailable
+     */
     @Column(nullable = false)
     private boolean status;
 }
