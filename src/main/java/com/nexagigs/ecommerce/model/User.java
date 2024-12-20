@@ -14,7 +14,7 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true, length = 100)
-    @jakarta.validation.constraints.NotBlank
+    @jakarta.validation.constraints.NotBlank // find Dependency for this
     private String name;
 
     @Column(nullable = false, unique = true)
