@@ -1,120 +1,52 @@
 package com.nexagigs.ecommerce.model;
 
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     @Column(nullable = false, unique = true, length = 100)
-    @jakarta.validation.constraints.NotBlank // find Dependency for this
     private String name;
 
+    @Email
+    @NotBlank
     @Column(nullable = false, unique = true)
-    @jakarta.validation.constraints.Email
     private String email;
 
+    @Size(min = 8)
+    @NotBlank
     @Column(nullable = false)
-    @jakarta.validation.constraints.Size(min = 8)
     private String password;
 
+    @NotBlank
     @Column(nullable = false)
     private String role;
 
-    @Column(length = 255)
+    @Size(max = 255)
     private String address;
 
-    @Column(length = 15)
-    @jakarta.validation.constraints.Pattern(regexp = "\\d{10,15}")
+    @Pattern(regexp = "\\d{10,15}")
     private String phone;
 
-    public User() {
+    // Custom setter for password to include hashing
+    public void setPassword(String password) {
+        this.password = hashPassword(password);
     }
 
-    public User(Long id, String name, String email, String password, String role, String address, String phone) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.address = address;
-        this.phone = phone;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    private String hashpassword(String password) {
+    // Method to hash the password
+    private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
-
-    public void setPassword(String password) {
-        this.password = hashpassword(password);
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        return id != null && id.equals(user.id);
-    }
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
 }
