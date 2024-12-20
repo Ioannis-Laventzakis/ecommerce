@@ -1,5 +1,6 @@
 package com.nexagigs.ecommerce.model;
 
+import com.nexagigs.ecommerce.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

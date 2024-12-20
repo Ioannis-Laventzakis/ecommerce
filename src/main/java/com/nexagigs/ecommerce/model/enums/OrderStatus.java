@@ -1,4 +1,4 @@
-package com.nexagigs.ecommerce.model;
+package com.nexagigs.ecommerce.model.enums;
 
 public enum OrderStatus {
     PENDING, DELIVERED, CANCELED, SHIPPED
