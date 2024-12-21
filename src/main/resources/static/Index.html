@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+</head>
+<body>
+<h1>User Management</h1>
+
+<!-- Register User -->
+<section>
+    <h2>Register User</h2>
+    <form id="registerForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" required><br><br>
+
+        <label for="role">Role:</label>
+        <input type="text" id="role" required><br><br>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address"><br><br>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone"><br><br>
+
+        <button type="submit">Register</button>
+    </form>
+</section>
+
+<hr>
+
+<!-- Fetch User by ID -->
+<section>
+    <h2>Get User by ID</h2>
+    <form id="getUserForm">
+        <label for="userId">User ID:</label>
+        <input type="number" id="userId" required><br><br>
+        <button type="submit">Fetch User</button>
+    </form>
+</section>
+
+<hr>
+
+<!-- Fetch User by Email -->
+<section>
+    <h2>Get User by Email</h2>
+    <form id="getUserByEmailForm">
+        <label for="userEmail">Email:</label>
+        <input type="email" id="userEmail" required><br><br>
+        <button type="submit">Fetch User</button>
+    </form>
+</section>
+
+<hr>
+
+<!-- Update User -->
+<section>
+    <h2>Update User</h2>
+    <form id="updateUserForm">
+        <label for="updateUserId">User ID:</label>
+        <input type="number" id="updateUserId" required><br><br>
+
+        <label for="updateName">Name:</label>
+        <input type="text" id="updateName"><br><br>
+
+        <label for="updateEmail">Email:</label>
+        <input type="email" id="updateEmail"><br><br>
+
+        <label for="updateRole">Role:</label>
+        <input type="text" id="updateRole"><br><br>
+
+        <label for="updateAddress">Address:</label>
+        <input type="text" id="updateAddress"><br><br>
+
+        <label for="updatePhone">Phone:</label>
+        <input type="text" id="updatePhone"><br><br>
+
+        <button type="submit">Update User</button>
+    </form>
+</section>
+
+<hr>
+
+<!-- Delete User -->
+<section>
+    <h2>Delete User</h2>
+    <form id="deleteUserForm">
+        <label for="deleteUserId">User ID:</label>
+        <input type="number" id="deleteUserId" required><br><br>
+        <button type="submit">Delete User</button>
+    </form>
+</section>
+
+<hr>
+
+<!-- Display Results -->
+<section>
+    <h2>Results</h2>
+    <pre id="output"></pre>
+</section>
+
+<script>
+    const apiBase = "http://localhost:8081/api/users";
+
+    // Function to display results
+    const displayResult = (result) => {
+        document.getElementById("output").textContent = JSON.stringify(result, null, 2);
+    };
+
+    // Register User
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const data = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            role: document.getElementById("role").value,
+            address: document.getElementById("address").value,
+            phone: document.getElementById("phone").value,
+        };
+        const response = await fetch(`${apiBase}/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        displayResult(await response.json());
+    });
+
+    // Fetch User by ID
+    document.getElementById("getUserForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById("userId").value;
+        const response = await fetch(`${apiBase}/${userId}`);
+        displayResult(await response.json());
+    });
+
+    // Fetch User by Email
+    document.getElementById("getUserByEmailForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userEmail = document.getElementById("userEmail").value;
+        const response = await fetch(`${apiBase}/email/${userEmail}`);
+        displayResult(await response.json());
+    });
+
+    // Update User
+    document.getElementById("updateUserForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById("updateUserId").value;
+        const data = {
+            id: parseInt(userId),
+            name: document.getElementById("updateName").value,
+            email: document.getElementById("updateEmail").value,
+            role: document.getElementById("updateRole").value,
+            address: document.getElementById("updateAddress").value,
+            phone: document.getElementById("updatePhone").value,
+        };
+        const response = await fetch(`${apiBase}/${userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        displayResult(await response.json());
+    });
+
+    // Delete User
+    document.getElementById("deleteUserForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const userId = document.getElementById("deleteUserId").value;
+        const response = await fetch(`${apiBase}/${userId}`, { method: "DELETE" });
+        displayResult(response.status === 204 ? { message: "User deleted successfully" } : await response.json());
+    });
+</script>
+</body>
+</html>
