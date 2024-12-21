@@ -54,4 +54,14 @@ public class User {
     private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
+
+    // Getter for id
+    public Long getId() {
+        return id;
+    }
+
+    // Getter for email
+    public String getEmail() {
+        return email;
+    }
 }
