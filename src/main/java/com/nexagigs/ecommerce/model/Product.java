@@ -29,7 +29,7 @@ import java.util.List;
  * - price: The price of the product.
  * - quantity: The available quantity of the product.
  * - image: The URL of the product image.
- * - status: The availability status of the product.
+ * - status: The availability status of the product.,
  */
 @Entity
 @Table(name = "products")
