@@ -21,6 +21,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // User who placed the order
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude
