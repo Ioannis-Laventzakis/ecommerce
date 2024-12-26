@@ -27,12 +27,14 @@ public class Order {
     @ToString.Exclude
     private User user;
 
+    // Products in the order
     @ManyToMany
     @JoinTable(
             name = "order_products",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
+    // Exclude products from toString to avoid circular reference
     @ToString.Exclude
     private List<Product> products;
 
