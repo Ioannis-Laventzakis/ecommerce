@@ -9,7 +9,7 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+//TODO: Add missing annotations to make this class a JPA entity
 @Entity
 @Table(name = "orders")
 @Getter
